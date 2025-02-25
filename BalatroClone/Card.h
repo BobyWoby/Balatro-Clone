@@ -22,12 +22,18 @@ enum Seal {
 
 class Card
 {
-	int value, chips, mult;
-	// 11 = Jack, 12 = Queen, 13 = Kings, 14 = Aces
-	Enhancement enhancement;
-	Edition edition;
-	Seal seal;
-
-
+private:
+	int value = 1, chips = 11, mult = 1;
+	// 11 = Jack, 12 = Queen, 13 = Kings, 1 = Aces
+	Enhancement enhancement = NO_ENHANCEMENT;
+	Edition edition = NO_EDITION;
+	Seal seal = NO_SEAL;
+public:
+	Card() {
+		
+	}
+	~Card() {
+		
+	}
 };
 
