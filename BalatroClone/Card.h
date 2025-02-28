@@ -5,6 +5,7 @@ enum Edition {
 	POLYCHROME,
 	NEGATIVE
 };
+
 enum Enhancement {
 	NO_ENHANCEMENT,
 	MULT,
@@ -13,27 +14,29 @@ enum Enhancement {
 	STEEL,
 	GOLD
 };
+
 enum Seal {
 	NO_SEAL,
 	RED,
 	PURPLE,
-	YELLOW
+	YELLOW,
 };
 
-class Card
-{
+class Card {
 private:
-	int value = 1, chips = 11, mult = 1;
-	// 11 = Jack, 12 = Queen, 13 = Kings, 1 = Aces
+	
+public:
 	Enhancement enhancement = NO_ENHANCEMENT;
 	Edition edition = NO_EDITION;
 	Seal seal = NO_SEAL;
-public:
+	double sellValue = 0;
 	Card() {
-		
+
 	}
+	
 	~Card() {
-		
+
 	}
+	
 };
 
