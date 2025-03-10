@@ -24,6 +24,24 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayingCard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sellable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TarotCard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BigInteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -36,6 +54,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingCard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sellable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TarotCard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BigInteger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

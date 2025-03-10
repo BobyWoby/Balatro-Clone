@@ -1,3 +1,5 @@
+#pragma once
+#include "Effect.h"
 #include "Card.h"
 #include <string>
 #include <stdexcept>
@@ -7,43 +9,6 @@
 #include <sstream>
 #include <vector>
 #include "Sellable.h"
-#pragma once
-
-enum EffectID {
-	COPYCAT,
-	CREATE_CARD,
-	CREATE_JOKER,
-	X_MULT,
-	FLAT_MULT,
-	X_CHIP,
-	FLAT_CHIP,
-	BREAK_PROB,
-	MAX_ROUNDS,
-	MAX_HANDS,
-	PROBABILITY,
-};
-
-std::map<std::string, EffectID> effectMap{
-	{"copycat", COPYCAT},
-	{"create card", CREATE_CARD},
-	{"create joker", CREATE_JOKER},
-	{"x mult", X_MULT},
-	{"flat mult", FLAT_MULT},
-	{"x chip", X_CHIP},
-	{"flat chip", FLAT_MULT},
-	{"probability", PROBABILITY},
-	{"break probability", BREAK_PROB},
-	{"max hands", MAX_HANDS},
-	{"max rounds", MAX_ROUNDS},
-
-
-
-};
-
-typedef struct {
-	EffectID id;
-	std::string value;
-} Effect;
 
 
 
@@ -87,7 +52,7 @@ public:
 			val = str.substr(splitPos+1, str.length());
 				
 			if (effectMap.find(id) != effectMap.end()) {
-				effects[effectEnd] = {effectMap[id], val};
+				effects[effectEnd] = Effect(effectMap[id], val);
 				effectEnd++;
 			}
 			else if (id == "sell value") {
