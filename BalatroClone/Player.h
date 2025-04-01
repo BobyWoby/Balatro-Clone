@@ -1,30 +1,23 @@
-#pragma once
+#include <vector>
 #include "Joker.h"
-#include "Card.h"
 #include "PlayingCard.h"
-#include "HelperFunctions.h"
+#include "BigInteger.h"
 
-class Player
-{
+class Player {
 private:
-	double money = 4;
-	int  hands = 4, discards = 4, jokerLimit = 5, deckSize = 52, handSize = 8;
-	int8_t score[0xffff], chips[0xfff], mult[0xfff];
-	Card deck[0xfff], consumeables[0xfff], currentHand[0xff];
-	Joker jokers[0xff];
+    std::vector<Card> deck, consumeables, currentHand;
+    std::vector<Joker> jokers;
 
 public:
-	Player() {
-		for (int i = 0; i < deckSize; i++) {
-			int rank = i % 13 + 1;
-			deck[i] = PlayingCard(rank, (rank == 1) ? 11 : (rank > 10) ? 10 : rank, 0, (Suit)(i % 4), NO_ENHANCEMENT, NO_EDITION, NO_SEAL);
-		}
-	}
-	~Player() {
-		
-	}
-	
-
+    double money = 4;
+    int hands = 4, discards = 4, jokerLimit = 5, deckSize = 52, handSize = 8;
+    BigInteger score, chips, mult;
+    Player() : score(0), chips(0), mult(1), deck(1000), consumeables(1000), currentHand(0xff), jokers(0xff) {
+        for (int i = 0; i < deckSize; i++) {
+            int rank = i % 13 + 1;
+            deck[i] = PlayingCard(rank, (rank == 1) ? 11 : (rank > 10) ? 10 : rank, 0, (Suit)(i % 4), NO_ENHANCEMENT, NO_EDITION, NO_SEAL);
+        }
+        jokers[0] = Joker();
+    }
+    ~Player() {}
 };
-
-

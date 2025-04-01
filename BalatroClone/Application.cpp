@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
-
-int main()
-{
+#include "Player.h"
+int main(){   
+    Player player = Player();
     sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
+    player.score = BigInteger(100000);
+    player.score = player.score * BigInteger(5);
+    std::cout << "Player Score: " << player.score.getString();
 
     while (window.isOpen())
     {
