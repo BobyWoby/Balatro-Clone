@@ -5,10 +5,13 @@ int main(){
     sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
-    player.score = BigInteger(100000);
-    player.score = player.score * BigInteger(5);
-    std::cout << "Player Score: " << player.score.getString();
+    player.score = BigInteger(1000000);
+    player.score = player.score * BigInteger(1000000) * BigInteger(1000000);
 
+    std::cout << "Player Score: " << player.score.getString() << std::endl;
+    for(auto card : player.deck){
+        std::cout << "Rank: " << card.rank << ", Suit: " << card.suit << std::endl;
+    }
     while (window.isOpen())
     {
         while (const std::optional event = window.pollEvent())

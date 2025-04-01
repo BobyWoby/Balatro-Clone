@@ -32,19 +32,61 @@ BigInteger BigInteger::operator+(BigInteger const& num) {
 BigInteger BigInteger::operator-(BigInteger const& num) {
 	BigInteger res;
 	int i = 0, carry = 0;
-	while (this->digitArr[i] != 10 || num.digitArr[i] != 10) {
-		int dig = 0, n = 0;
+	return res;
+}
 
+BigInteger BigInteger::operator*(BigInteger const& num)
+{
+	BigInteger res(true);
+	int digit = 0, carry = 0;
+	for (int i = 0; i < this->digitArr.size(); i++) {
+		carry = 0;
+		int j = i;
+		for (; j < num.digitArr.size() + i; j++) {
+			digit = 0 + (this->digitArr.at(i) * num.digitArr.at(j - i)) + carry;
+			carry = digit / 10;
 
-
-
-		int tmp = this->digitArr[i] + num.digitArr[i];
-		dig = tmp % 10;
-		res.digitArr.push_back(tmp + carry);
-		carry = tmp / 10;
+			if (j >= res.digitArr.size()) {
+				res.digitArr.push_back(digit % 10);
+			}
+			else {
+				res.digitArr.at(j) = digit % 10;
+			}
+		}
+		if (carry) {
+			digit = res.digitArr.at(j) + carry;
+			res.digitArr.at(j) = digit % 10;
+		}
+	}
+	//check if its all 0s
+	int zeros = 0;
+	for (auto d : res.digitArr) {
+		if (!d) zeros++;
+	}
+	if (zeros >= res.digitArr.size()) {
+		res = BigInteger(0);
 	}
 	return res;
 }
+
+std::string BigInteger::getString()
+{
+	std::string out = "";
+	std::stringstream ss{};
+	for (uint8_t digit : digitArr) {
+		out = std::to_string(digit) + out;
+	}
+	if (this->digitArr.size() > 12) {
+		int exp = this->digitArr.size();
+		std::string tmp = "";
+		tmp += out[0];
+		tmp += "." + out.substr(1, 4);
+		out = tmp + "e" + std::to_string(this->digitArr.size() - 1);
+	}
+	return out;
+}
+
+
 
 // Karatsuba algorithm WIP
 //BigInteger BigInteger::operator*(BigInteger const& num)
@@ -74,41 +116,3 @@ BigInteger BigInteger::operator-(BigInteger const& num) {
 //	return BigInteger();
 //
 //}
-
-BigInteger BigInteger::operator*(BigInteger const& num)
-{
-	BigInteger res(true);
-	int digit = 0, carry = 0;
-	for (int i = 0; i < this->digitArr.size(); i++) {
-		carry = 0;
-		int j = i;
-		for (; j < num.digitArr.size() + i; j++) {
-			digit = 0 + (this->digitArr.at(i) * num.digitArr.at(j - i)) + carry;
-			carry = digit / 10;
-
-			if (j >= res.digitArr.size()) {
-				res.digitArr.push_back(digit % 10);
-			}
-			else {
-				res.digitArr.at(j) = digit % 10;
-			}
-		}
-		if (carry) {
-			digit = res.digitArr.at(j) + carry;
-			res.digitArr.at(j) = digit % 10;
-		}
-	}
-	return res;
-}
-
-std::string BigInteger::getString()
-{
-	std::string out = "";
-	std::stringstream ss{};
-	for (uint8_t digit : digitArr) {
-		out = std::to_string(digit) + out;
-	}
-	return out;
-}
-
-
