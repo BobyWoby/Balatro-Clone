@@ -11,7 +11,7 @@ private:
 
 public:
 	std::vector<Joker> jokers;
-	std::vector<PlayingCard> deck, currentHand, discardPile, selectedCards;
+	std::vector<PlayingCard> deck, currentHand, discardPile;
 	std::vector<Card> consumeables;
 	std::default_random_engine rng;
 
@@ -26,10 +26,6 @@ public:
 		jokers.push_back(Joker());
 	}
 	~Player() {}
-
-	void selectCard() {
-
-	}
 	void drawHand() {
 		if (!currentHand.empty()) {
 			clearHand();

@@ -1,5 +1,6 @@
 #pragma once
 #include "Card.h"
+#include <map>
 enum Suit {
 	SPADES = 0,
 	HEARTS,
@@ -13,7 +14,12 @@ class PlayingCard :
 {
 
 private:
-
+	std::map<Suit, std::string> suitDict{
+	{SPADES, "Spades"},
+	{HEARTS, "Hearts"},
+	{CLUBS, "Clubs"},
+	{DIAMONDS, "Diamonds"},
+	};
 public:
 	Suit suit = SPADES;
 	// 11 = Jack, 12 = Queen, 13 = Kings, 1 = Aces
@@ -34,6 +40,30 @@ public:
 		
 	}
 
+	operator std::string() {
+		std::string str = "";
+		switch (rank) {
+		case 11:
+			str += "Jack";
+			break;
+		case 12:
+			str += "Queen";
+			break;
+		case 13:
+			str += "King";
+			break;
+		case 1:
+			str += "Ace";
+			break;
+		default:
+			str += std::to_string(rank);
+			break;
+		}
+		str += " of ";
+		str += suitDict[this->suit];
+
+		return str;
+	}
 
 };
 

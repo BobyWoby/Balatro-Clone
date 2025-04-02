@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 enum Edition {
 	NO_EDITION,
 	FOIL,
@@ -37,6 +38,8 @@ public:
 	~Card() {
 
 	}
-	
+	explicit operator std::string() {
+
+	}
 };
 
