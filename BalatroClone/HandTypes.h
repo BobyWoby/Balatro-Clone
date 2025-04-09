@@ -147,7 +147,6 @@ namespace {
 		}
 		if (straightCounter == straightThresh && suitModeCount == flushThresh)
 		{
-			// TODO: FIX THIS PROBLEM IDK WHATS HAPPENING
 			for (auto card : cards) {
 				if (card.suit == suitMode) {
 					int count = 0;

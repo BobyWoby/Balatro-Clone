@@ -15,6 +15,7 @@ class Player {
 private:
 
 public:
+	int seed = 0;
 	std::vector<Joker> jokers;
 	std::vector<PlayingCard> deck, currentHand, discardPile, playedCards;
 	std::vector<Card> consumeables;
@@ -30,7 +31,12 @@ public:
 			deck[i] = PlayingCard(rank, (rank == 1) ? 11 : (rank > 10) ? 10 : rank, 0, (Suit)(i % 4), NO_ENHANCEMENT, NO_EDITION, NO_SEAL);
 		}
 		jokers.push_back(Joker());
-		srand(time(0));
+		seed = (int)time(0);
+		srand(seed);
+	}
+	Player(int seed) : Player() {
+		this->seed = seed;
+		srand(seed);
 	}
 	~Player() {}
 
