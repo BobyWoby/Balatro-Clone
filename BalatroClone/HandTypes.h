@@ -132,7 +132,7 @@ namespace {
 		}
 		if ((countMode == 2 || countMode == 3)  && numRanks == 2 && flushCounter == 5) 
 		{
-			scoredCards = cards;
+			//scoredCards = cards;
 			return handTypes["flush-house"];
 		}
 		if (countMode == 5)
@@ -147,11 +147,12 @@ namespace {
 		}
 		if (straightCounter == straightThresh && suitModeCount == flushThresh)
 		{
-			for (auto card : cards) {
+			// TODO: FIX THIS PROBLEM IDK WHATS HAPPENING
+			/*for (auto card : cards) {
 				if (card.suit == suitMode && std::find(scoredCards.begin(), scoredCards.end(), scoredCards) == scoredCards.end()) {
 					scoredCards.push_back(card);
 				}
-			}
+			}*/
 			return handTypes["straight-flush"];
 		}
 		if (countMode == 4) 
