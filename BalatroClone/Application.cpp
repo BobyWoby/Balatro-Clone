@@ -36,6 +36,15 @@ int main() {
 						std::cout << "No Cards in Hand" << std::endl;
 					}
 					break;
+				case sf::Keyboard::Scancode::H:
+					std::cout << "\nCurrent Hand\n-----------------" << std::endl;
+					for (auto card : player.currentHand) {
+						std::cout << (std::string)card << std::endl;
+					}
+					if (player.currentHand.empty()) {
+						std::cout << "No Cards in Hand" << std::endl;
+					}
+					break;
 				case sf::Keyboard::Scancode::S:
 					player.logScore();
 					break;
