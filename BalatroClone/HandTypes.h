@@ -25,19 +25,19 @@ namespace {
 		}
 	};
 
-	 extern std::map<std::string, HandType> handTypes = {
-		{"high-card",{"High Card", 5, 1, 10, 1}},
-		{"pair",{"Pair", 10, 2, 15, 1}},
-		{"two-pair",{"Two Pair", 20, 2, 20, 1}},
-		{"three-of-a-kind",{"Three of a Kind", 30, 3, 20, 2}},
-		{"straight",{"Straight", 30, 4, 30, 3}},
-		{"flush",{"Flush", 35, 4, 15, 2}},
-		{"full-house",{"Full House", 40, 4, 25, 2}},
-		{"four-of-kind",{"Four of a Kind", 60, 7, 30, 3}},
-		{"straight-flush",{"Straight Flush", 100, 8, 40, 4}},
-		{"five-of-a-kind",{"Five of a Kind", 120, 12, 35, 3}},
-		{"flush-house",{"Flush House", 140, 14, 40, 4}},
-		{"flush-five",{"Flush Five", 160, 16, 50, 3}},
+	extern std::map<std::string, HandType> handTypes = {
+	   {"high-card",{"High Card", 5, 1, 10, 1}},
+	   {"pair",{"Pair", 10, 2, 15, 1}},
+	   {"two-pair",{"Two Pair", 20, 2, 20, 1}},
+	   {"three-of-a-kind",{"Three of a Kind", 30, 3, 20, 2}},
+	   {"straight",{"Straight", 30, 4, 30, 3}},
+	   {"flush",{"Flush", 35, 4, 15, 2}},
+	   {"full-house",{"Full House", 40, 4, 25, 2}},
+	   {"four-of-kind",{"Four of a Kind", 60, 7, 30, 3}},
+	   {"straight-flush",{"Straight Flush", 100, 8, 40, 4}},
+	   {"five-of-a-kind",{"Five of a Kind", 120, 12, 35, 3}},
+	   {"flush-house",{"Flush House", 140, 14, 40, 4}},
+	   {"flush-five",{"Flush Five", 160, 16, 50, 3}},
 	};
 	void levelUpHand(std::string id) {
 		handTypes[id].lvl++;
@@ -46,9 +46,9 @@ namespace {
 		handTypes[id].lvl = lvl;
 	}
 
-	HandType findHandType(std::vector<PlayingCard> cards, std::vector<PlayingCard> &scoredCards) {
+	HandType findHandType(std::vector<PlayingCard> cards, std::vector<PlayingCard>& scoredCards) {
 		//assumes empty scored cards vector
-		
+
 		// sort the cards in ascending order of rank
 		std::sort(cards.begin(), cards.end(), [](PlayingCard& a, PlayingCard& b) {return a.rank < b.rank; });
 
@@ -130,7 +130,7 @@ namespace {
 			}
 			return handTypes["flush-five"];
 		}
-		if ((countMode == 2 || countMode == 3)  && numRanks == 2 && flushCounter == 5) 
+		if ((countMode == 2 || countMode == 3) && numRanks == 2 && flushCounter == 5)
 		{
 			//scoredCards = cards;
 			return handTypes["flush-house"];
@@ -148,14 +148,21 @@ namespace {
 		if (straightCounter == straightThresh && suitModeCount == flushThresh)
 		{
 			// TODO: FIX THIS PROBLEM IDK WHATS HAPPENING
-			/*for (auto card : cards) {
-				if (card.suit == suitMode && std::find(scoredCards.begin(), scoredCards.end(), scoredCards) == scoredCards.end()) {
-					scoredCards.push_back(card);
+			for (auto card : cards) {
+				if (card.suit == suitMode) {
+					int count = 0;
+					for (auto scored : scoredCards) {
+						if (scored == card) {
+							count++;
+						}
+					}
+					if (count >= scoredCards.size())
+						scoredCards.push_back(card);
 				}
-			}*/
+			}
 			return handTypes["straight-flush"];
 		}
-		if (countMode == 4) 
+		if (countMode == 4)
 		{
 			scoredCards.clear();
 			for (auto card : cards) {
@@ -165,7 +172,7 @@ namespace {
 			}
 			return handTypes["four-of-a-kind"];
 		}
-		if (countMode == 3 && numRanks == 2 && cards.size() >= 5) 
+		if (countMode == 3 && numRanks == 2 && cards.size() >= 5)
 		{
 			scoredCards = cards;
 			return handTypes["full-house"];
@@ -181,11 +188,11 @@ namespace {
 			return handTypes["flush"];
 		}
 
-		if (straightCounter == straightThresh) 
+		if (straightCounter == straightThresh)
 		{
 			return handTypes["straight"];
 		}
-		if (countMode == 3) 
+		if (countMode == 3)
 		{
 			scoredCards.clear();
 			for (auto card : cards) {
@@ -195,12 +202,12 @@ namespace {
 			}
 			return handTypes["three-of-a-kind"];
 		}
-		if (countMode == 2 && numRanks == 3) 
+		if (countMode == 2 && numRanks == 3)
 		{
 			// figure out how to check the two pair thing cuz brain no work
 			scoredCards.clear();
 			for (int i = 0; i < cards.size(); i++) {
-				for (int j = i+1; j < cards.size(); j++) {
+				for (int j = i + 1; j < cards.size(); j++) {
 					if (i == j) continue;
 					PlayingCard iCard = cards.at(i);
 					PlayingCard jCard = cards.at(j);
