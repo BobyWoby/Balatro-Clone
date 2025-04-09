@@ -55,7 +55,8 @@ namespace {
 		int counter = 0, flushCounter = 0, rankCounter = 0, numRanks = 0, c = 0, straightCounter = 0;
 		int ranks[5] = { 0,0,0,0,0 };
 		int r = cards.at(0).rank, countMode = 0, rankMode = cards.at(0).rank;
-		int s = cards.at(0).suit, suitCounter = 0, suitModeCount = 0, suitMode = cards.at(0).suit;
+		int s = cards.at(0).suit, suitCounter = 0, suitModeCount = 0;
+		Suit suitMode = cards.at(0).suit;
 		//check for flush five, flushes, five-of-a-kind
 		for (int i = 0; i < cards.size(); i++) {
 			if (i + 1 < cards.size() && cards.at(i) == cards.at(i + 1)) counter++;
@@ -121,7 +122,12 @@ namespace {
 
 		if (counter == 5)
 		{
-			scoredCards = cards;
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.rank == rankMode) {
+					scoredCards.push_back(card);
+				}
+			}
 			return handTypes["flush-five"];
 		}
 		if ((countMode == 2 || countMode == 3)  && numRanks == 2 && flushCounter == 5) 
@@ -131,14 +137,18 @@ namespace {
 		}
 		if (countMode == 5)
 		{
-			scoredCards = cards;
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.rank == rankMode) {
+					scoredCards.push_back(card);
+				}
+			}
 			return handTypes["five-of-a-kind"];
 		}
 		if (straightCounter == straightThresh && suitModeCount == flushThresh)
 		{
-			//scoredCards = {};
 			for (auto card : cards) {
-				if (card.suit == suitMode && std::find(scoredCards.begin(), scoredCards.end()) == scoredCards.end()) {
+				if (card.suit == suitMode && std::find(scoredCards.begin(), scoredCards.end(), scoredCards) == scoredCards.end()) {
 					scoredCards.push_back(card);
 				}
 			}
@@ -146,6 +156,12 @@ namespace {
 		}
 		if (countMode == 4) 
 		{
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.rank == rankMode) {
+					scoredCards.push_back(card);
+				}
+			}
 			return handTypes["four-of-a-kind"];
 		}
 		if (countMode == 3 && numRanks == 2 && cards.size() >= 5) 
@@ -153,14 +169,61 @@ namespace {
 			scoredCards = cards;
 			return handTypes["full-house"];
 		}
-		if (flushCounter == flushThresh) return handTypes["flush"];
-		if (straightCounter == straightThresh) return handTypes["straight"]; 
-		if (countMode == 3) return handTypes["three-of-a-kind"]; 
-		if (countMode == 2 && numRanks == 3) return handTypes["two-pair"]; 
-		if (countMode == 2) return handTypes["pair"]; 
+		if (flushCounter == flushThresh)
+		{
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.suit == suitMode) {
+					scoredCards.push_back(card);
+				}
+			}
+			return handTypes["flush"];
+		}
+
+		if (straightCounter == straightThresh) 
+		{
+			return handTypes["straight"];
+		}
+		if (countMode == 3) 
+		{
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.rank == rankMode) {
+					scoredCards.push_back(card);
+				}
+			}
+			return handTypes["three-of-a-kind"];
+		}
+		if (countMode == 2 && numRanks == 3) 
+		{
+			// figure out how to check the two pair thing cuz brain no work
+			scoredCards.clear();
+			for (int i = 0; i < cards.size(); i++) {
+				for (int j = i+1; j < cards.size(); j++) {
+					if (i == j) continue;
+					PlayingCard iCard = cards.at(i);
+					PlayingCard jCard = cards.at(j);
+					if (iCard.rank == jCard.rank) {
+						scoredCards.push_back(cards.at(i));
+					}
+				}
+			}
+			return handTypes["two-pair"];
+		}
+		if (countMode == 2)
+		{
+			scoredCards.clear();
+			for (auto card : cards) {
+				if (card.rank == rankMode) {
+					scoredCards.push_back(card);
+				}
+			}
+			return handTypes["pair"];
+		}
+		scoredCards.clear();
+		scoredCards.push_back(cards.at(cards.size() - 1));
 		return handTypes["high-card"];
 	}
-
 
 	HandType findHandType(std::vector<PlayingCard> cards) {
 		// sort the cards in ascending order of rank
