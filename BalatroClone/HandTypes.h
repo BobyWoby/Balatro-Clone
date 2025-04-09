@@ -55,8 +55,8 @@ namespace {
 		int counter = 0, flushCounter = 0, rankCounter = 0, numRanks = 0, c = 0, straightCounter = 0;
 		int ranks[5] = { 0,0,0,0,0 };
 		int r = cards.at(0).rank, countMode = 0, rankMode = cards.at(0).rank;
-		int s = cards.at(0).suit, suitCounter = 0, suitModeCount = 0;
-		Suit suitMode = cards.at(0).suit;
+		int suitCounter = 0, suitModeCount = 0;
+		Suit suitMode = cards.at(0).suit, s = cards.at(0).suit;
 		//check for flush five, flushes, five-of-a-kind
 		for (int i = 0; i < cards.size(); i++) {
 			if (i + 1 < cards.size() && cards.at(i) == cards.at(i + 1)) counter++;
@@ -80,7 +80,7 @@ namespace {
 			else {
 				if (suitCounter > suitModeCount) {
 					suitModeCount = suitCounter;
-					suitMode = r;
+					suitMode = s;
 				}
 				suitCounter = 1;
 				s = cards[i].suit;
@@ -226,13 +226,17 @@ namespace {
 	}
 
 	HandType findHandType(std::vector<PlayingCard> cards) {
+		//assumes empty scored cards vector
+
 		// sort the cards in ascending order of rank
 		std::sort(cards.begin(), cards.end(), [](PlayingCard& a, PlayingCard& b) {return a.rank < b.rank; });
 
 		int counter = 0, flushCounter = 0, rankCounter = 0, numRanks = 0, c = 0, straightCounter = 0;
 		int ranks[5] = { 0,0,0,0,0 };
 		int r = cards.at(0).rank, countMode = 0, rankMode = cards.at(0).rank;
-		int s = cards.at(0).suit, suitCounter = 0, suitModeCount = 0, suitMode = cards.at(0).suit;
+		int suitCounter = 0, suitModeCount = 0;
+		Suit suitMode = cards.at(0).suit, s = cards.at(0).suit;
+
 		//check for flush five, flushes, five-of-a-kind
 		for (int i = 0; i < cards.size(); i++) {
 			if (i + 1 < cards.size() && cards.at(i) == cards.at(i + 1)) counter++;
@@ -249,19 +253,17 @@ namespace {
 				rankCounter = 1;
 				r = cards[i].rank;
 			}
-
 			if (cards.at(i).suit == s) {
 				suitCounter++;
 			}
 			else {
 				if (suitCounter > suitModeCount) {
 					suitModeCount = suitCounter;
-					suitMode = r;
+					suitMode = s;
 				}
 				suitCounter = 1;
 				s = cards[i].suit;
 			}
-
 			c = 0;
 			for (int j : ranks) {
 				if (j != cards.at(i).rank) c++;
@@ -281,18 +283,12 @@ namespace {
 			rankMode = r;
 		}
 
+		// check if the hand is straight
 		for (int i = 0; i < cards.size() - 1; i++) {
-			if (cards.at(i + 1).rank - cards.at(i).rank <= straightGaps)
-			{
-				
-				straightCounter++;
-			}
-			else if (i == cards.size() - 2 && cards.at(i).rank == 13 && cards.at(0).rank == 1) 
-			{
-
-				straightCounter++;
-			}
+			if (cards.at(i + 1).rank - cards.at(i).rank <= straightGaps) straightCounter++;
+			else if (i == cards.size() - 2 && cards.at(i).rank == 13 && cards.at(0).rank == 1) straightCounter++;
 		}
+
 
 		if (counter == 5) return handTypes["flush-five"];
 		//TODO: check for flush house

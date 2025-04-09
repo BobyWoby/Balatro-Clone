@@ -4,6 +4,8 @@
 #include "PlayingCard.h"
 #include "BigInteger.h"
 #include "HandTypes.h"
+#include <stdlib.h>
+#include <time.h>
 
 #define DEFAULT_DECK_SIZE 52
 #define DEFAULT_CONSUMABLE_SLOTS 2
@@ -28,6 +30,7 @@ public:
 			deck[i] = PlayingCard(rank, (rank == 1) ? 11 : (rank > 10) ? 10 : rank, 0, (Suit)(i % 4), NO_ENHANCEMENT, NO_EDITION, NO_SEAL);
 		}
 		jokers.push_back(Joker());
+		srand(time(0));
 	}
 	~Player() {}
 
@@ -141,8 +144,9 @@ public:
 			clearHand();
 		}
 		for (int i = 0; i < handSize; i++) {
-			std::uniform_int_distribution<> dist(0, deck.size() - 1);
-			int index = dist(rng);
+			//std::uniform_int_distribution<> dist(0, deck.size() - 1);
+			//int index = dist(rng);
+			int index = rand() % deck.size();
 			currentHand.push_back(deck.at(index));
 			deck.erase(deck.begin() + index, deck.begin() + index + 1);
 		}
