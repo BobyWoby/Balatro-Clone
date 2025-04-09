@@ -71,6 +71,7 @@ BigInteger BigInteger::operator*(BigInteger const& num)
 
 std::string BigInteger::getString()
 {
+	if (digitArr.size() == 0) return "0";
 	std::string out = "";
 	std::stringstream ss{};
 	for (uint8_t digit : digitArr) {

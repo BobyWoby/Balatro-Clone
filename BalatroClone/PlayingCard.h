@@ -65,5 +65,11 @@ public:
 		return str;
 	}
 
+
+	bool operator==(PlayingCard& card) {
+		return this->rank == card.rank && this->suit == card.suit;
+	}
+
+
 };
 

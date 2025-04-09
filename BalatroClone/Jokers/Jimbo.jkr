@@ -5,3 +5,4 @@ x chip:12
 flat chip:200
 probability:1
 sell value:10
+trigger state:default

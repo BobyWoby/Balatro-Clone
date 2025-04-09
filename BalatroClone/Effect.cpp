@@ -1,6 +1,6 @@
 #include "Effect.h"
 
-std::map<std::string, EffectID> effectMap{
+extern std::map<std::string, EffectID> effectMap{
 	{"copycat", COPYCAT},
 	{"create card", CREATE_CARD},
 	{"create joker", CREATE_JOKER},

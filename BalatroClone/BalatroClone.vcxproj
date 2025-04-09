@@ -134,6 +134,7 @@
     <ClInclude Include="BigInteger.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="HandTypes.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Joker.h" />
     <ClInclude Include="Player.h" />
