@@ -48,7 +48,7 @@ public:
 			if (selectedCards[i] == cardIndex) {
 				//unselect the card
 				selectedCards[i] = -1;
-				std::cout << "\nSelected Cards\n------------" << std::endl;
+				std::cout << "\nSelected Cards\n-----------------" << std::endl;
 				for (int i : selectedCards) {
 					if (i != -1) {
 						std::cout << (std::string)currentHand.at(i) << std::endl;
@@ -72,7 +72,7 @@ public:
 			}
 		}
 
-		std::cout << "\nSelected Cards\n------------" << std::endl;
+		std::cout << "\nSelected Cards\n-----------------" << std::endl;
 		for (int i : selectedCards) {
 			if (i != -1) {
 				std::cout << (std::string)currentHand.at(i) << std::endl;
@@ -83,7 +83,7 @@ public:
 	BigInteger calculateScore() {
 		//sort selectedCards
 
-		std::vector<PlayingCard> playedCards;
+		std::vector<PlayingCard> playedCards, scoredCards;
 
 		std::sort(std::begin(selectedCards), std::end(selectedCards), std::greater<int>());	
 		for (int i : selectedCards) {
@@ -92,32 +92,49 @@ public:
 				currentHand.erase(currentHand.begin() + i, currentHand.begin() + i + 1);
 			}
 		}
-		
-		
 
-		// TODO: figure out what the score is of playedCards
-
-		HandType type = findHandType(playedCards);
+		HandType type = findHandType(playedCards, scoredCards);
 		int baseChip = type.chips + (type.lvl - 1) * (type.chipScaling);
 		int baseMult = type.mult + (type.lvl - 1) * (type.multScaling);
-		//std::cout << "BaseChip: " << baseChip << std::endl;
-		//std::cout << "BaseMult: " << baseMult << std::endl;
 		BigInteger chip = BigInteger(baseChip); // base chip
  		BigInteger mult = BigInteger(baseMult); // base mult
 
 		for (auto card : playedCards) {
-			for (auto joker : jokers) {
+			for (int j = 0; j < jokers.size(); j++) {
+				auto joker = jokers.at(j);
 				//apply when card is scored jokers
 				if (joker.triggerState == CARD_PLAYED) {
 
 				}
 			}
 		}
+		for (auto card : scoredCards) {
+			for (int j = 0; j < jokers.size(); j++) {
+				auto joker = jokers.at(j);
+				//apply when card is scored jokers
+				if (joker.triggerState == CARD_SCORED) {
 
-		for (auto joker : jokers) {
+				}
+			}
+		}
+		for (int j = 0; j < jokers.size(); j++) {
+			auto joker = jokers.at(j);
 			//apply other jokers
 			if (joker.triggerState == DEFAULT) {
-
+				for (int i = 0; i < joker.effectEnd; i++) {
+					Effect effect = joker.effects[i];
+					switch (effect.id) {
+					case X_MULT:
+						//TODO: FIGURE OUT HOW OPERATIONS WITH DOUBLES WORKS
+						//mult = mult * BigInteger(std::stod(effect.value));
+						break;
+					case FLAT_MULT:
+						mult = mult + BigInteger(std::stoi(effect.value));
+						break;
+					case FLAT_CHIP:
+						chip = chip + BigInteger(std::stoi(effect.value));
+					}
+				}
 			}
 		}
 
@@ -126,16 +143,21 @@ public:
 			discardPile.push_back(card);
 		}
 		playedCards.clear();
-		return mult * chip;
+		score = mult * chip;
+		return score;
 	}
 	void logScore() {
-		std::vector<PlayingCard> playedCards;
+		std::vector<PlayingCard> playedCards, scoredCards;
 		for (int i : selectedCards) {
 			if (i != -1) {
 				playedCards.push_back(currentHand.at(i));
 			}
 		}
-		HandType type = findHandType(playedCards);
+		HandType type = findHandType(playedCards, scoredCards);
+		std::cout << "\nScoring Cards\n-----------" << std::endl;
+		for (PlayingCard card : scoredCards) {
+			std::cout << (std::string)card << std::endl;
+		}
 		std::cout << "\nScore Calculation\n-----------" << std::endl;
 		std::cout << "Hand Type: " << type.name << std::endl;
 		std::cout << "Hand Lvl: " << type.lvl << std::endl;
@@ -143,7 +165,6 @@ public:
 		std::cout << "Hand chips: " << baseChip << std::endl;
 		int baseMult = type.mult + (type.lvl - 1) * (type.multScaling);
 		std::cout << "Hand mult: " << baseMult << std::endl;
-
 		std::cout << "\nScore: " << calculateScore().getString() << std::endl;
 	}
 

@@ -15,6 +15,7 @@ namespace {
 	extern enum TriggerState {
 		DEFAULT, // after the scored cards and such
 		CARD_PLAYED,
+		CARD_SCORED,
 		CARD_DISCARDED,
 		END_ROUND,
 		END_SHOP,
@@ -25,6 +26,7 @@ namespace {
 	extern std::map<std::string, TriggerState> triggerStates{
 		{"default", DEFAULT},
 		{"card played", CARD_PLAYED},
+		{"card scored", CARD_PLAYED},
 		{"card discarded", CARD_DISCARDED},
 		{"end round", END_ROUND},
 		{"end shop", END_SHOP},
@@ -36,11 +38,11 @@ namespace {
 	{
 	private:
 		std::string name, description;
-		Edition edition;
-		int flatMult = 0, flatChip = 0, effectEnd = 0, handsPlayed = 0, roundsPlayed = 0;
-		Effect effects[0xff];
 
 	public:
+		int flatMult = 0, flatChip = 0, effectEnd = 0, handsPlayed = 0, roundsPlayed = 0;
+		Edition edition;
+		Effect effects[0xff];
 		TriggerState triggerState;
 		~Joker() {
 

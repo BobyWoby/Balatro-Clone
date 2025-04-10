@@ -28,7 +28,7 @@ int main() {
 					break;
 				case sf::Keyboard::Scancode::D:
 					player.drawHand();
-					std::cout << "\nCurrent Hand\n-----------------" << std::endl;
+					std::cout << "\nCurrent Hand\n" << player.deck.size() << "/" << player.deckSize << "\n-----------------" << std::endl;
 					for (auto card : player.currentHand) {
 						std::cout << (std::string)card << std::endl;
 					}
@@ -37,7 +37,7 @@ int main() {
 					}
 					break;
 				case sf::Keyboard::Scancode::H:
-					std::cout << "\nCurrent Hand\n-----------------" << std::endl;
+					std::cout << "\nCurrent Hand\n" << player.deck.size() << "/" << player.deckSize << "\n-----------------" << std::endl;
 					for (auto card : player.currentHand) {
 						std::cout << (std::string)card << std::endl;
 					}
@@ -49,7 +49,7 @@ int main() {
 					player.logScore();
 					break;
 				case sf::Keyboard::Scancode::J:
-					std::cout << "\nJokers\n---------\n";
+					std::cout << "\nJokers\n-----------------\n";
 					for (auto joker : player.jokers) {
 						std::cout << (std::string)joker << std::endl;;
 					}
